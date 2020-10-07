@@ -1,4 +1,6 @@
-﻿namespace UniModules.UniGame.TypeConverters.Editor
+﻿using UniCore.Runtime.ProfilerTools;
+
+namespace UniModules.UniGame.TypeConverters.Editor
 {
     using System;
     using System.Collections.Generic;
