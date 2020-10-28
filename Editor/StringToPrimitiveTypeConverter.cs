@@ -33,7 +33,11 @@
         public object ConvertValue(string source, Type target)
         {
             //create default value of type
-            if (string.IsNullOrEmpty(source)) {
+            if (string.IsNullOrEmpty(source))
+            {
+                if (target == typeof(string))
+                    return string.Empty;
+                
                 return Activator.CreateInstance(target);
             }
             
@@ -46,7 +50,7 @@
             }
             
             var typeConverter = TypeDescriptor.GetConverter(target);
-            var propValue     = typeConverter.ConvertFromString((string) source);
+            var propValue = typeConverter.ConvertFromString(source);
             return propValue;
         }
     }
