@@ -42,12 +42,20 @@ namespace UniModules.UniGame.TypeConverters.Editor
             }
 
             if (source is string value) {
-                var serializedData = JsonConvert.DeserializeObject(value, target);
-                return (true,serializedData);
+                try
+                {
+                    var serializedData = JsonConvert.DeserializeObject(value, target);
+                    return (true,serializedData);
+                }
+                catch (JsonReaderException exception)
+                {
+                    Debug.LogError($"{nameof(JsonSerializableClassConverter)}: There was exception while deserialization\nTarget: {target};\nValue: {value};\nMessage: {exception.Message}");
+                    
+                    return (false, source);
+                }
             }
             
             return (false, source);
         }
-
     }
 }
