@@ -53,6 +53,12 @@ namespace UniModules.UniGame.TypeConverters.Editor
                     
                     return (false, source);
                 }
+                catch (JsonSerializationException exception)
+                {
+                    Debug.LogError($"{nameof(JsonSerializableClassConverter)}: There was exception while deserialization\nTarget: {target};\nValue: {value};\nMessage: {exception.Message}");
+
+                    return (false, source);
+                }
             }
             
             return (false, source);
