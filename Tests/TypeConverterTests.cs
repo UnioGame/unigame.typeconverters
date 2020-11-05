@@ -15,14 +15,7 @@
         public void TestSetupOnce()
         {
             converter = ScriptableObject.CreateInstance<ObjectTypeConverter>();
-            
-            var typeConverters = converter.converters;
-                    
-            typeConverters.Add(new StringToAssetConverter());
-            typeConverters.Add(new StringToAssetReferenceConverter());
-            typeConverters.Add(new JsonSerializableClassConverter());
-            typeConverters.Add(new StringToPrimitiveTypeConverter());
-            typeConverters.Add(new StringToPrimitiveTypeConverter());
+            converter.ResetToDefault();
         }
         
         [Test]
