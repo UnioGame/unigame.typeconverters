@@ -1,7 +1,7 @@
 ﻿namespace UniModules.UniGame.TypeConverters.Editor
 {
     using System;
-    using Core.EditorTools.Editor.AssetOperations;
+    using UniModules.Editor;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
 

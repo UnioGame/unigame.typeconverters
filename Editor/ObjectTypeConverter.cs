@@ -7,9 +7,7 @@ namespace UniModules.UniGame.TypeConverters.Editor
     using System.Linq;
     using Abstract;
     using Core.EditorTools.Editor;
-    using Core.EditorTools.Editor.AssetOperations;
-    using Core.EditorTools.Editor.Tools;
-    using UniCore.Runtime.ProfilerTools;
+    using UniModules.Editor;
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "UniGame/ObjectTypeConverter/Create Converter", fileName = nameof(ObjectTypeConverter))]
