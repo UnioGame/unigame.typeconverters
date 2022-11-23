@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
     using UniModules.Editor;
-    using UniModules.UniGame.Core.Runtime.Extension;
+    using global::UniGame.Core.Runtime.Extension;
     using UnityEngine;
     using Object = UnityEngine.Object;
 

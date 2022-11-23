@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using UniModules.UniGame.Core.Runtime.Extension;
+using UniGame.Core.Runtime.Extension;
 using UniModules.Editor;
 using UnityEngine;
 
