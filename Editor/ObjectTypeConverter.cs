@@ -1,10 +1,6 @@
-﻿using UniCore.Runtime.ProfilerTools;
-
-namespace UniModules.UniGame.TypeConverters.Editor
+﻿namespace UniModules.UniGame.TypeConverters.Editor
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using Abstract;
     using Core.EditorTools.Editor;
     using UniModules.Editor;
@@ -43,8 +39,7 @@ namespace UniModules.UniGame.TypeConverters.Editor
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.ListDrawerSettings(Expanded = true)]
 #endif
-        [SerializeReference]
-        public List<BaseTypeConverter> converters = new List<BaseTypeConverter>();
+        public TypeConverter typeConverter = new TypeConverter();
 
         [ContextMenu(nameof(ResetToDefault))]
 #if ODIN_INSPECTOR
@@ -52,55 +47,31 @@ namespace UniModules.UniGame.TypeConverters.Editor
 #endif
         public void ResetToDefault()
         {
-            this.converters.Clear();
-                                
-            converters.Add(new AssetReferenceToStringConverter());
-            converters.Add(new AssetToStringConverter());
-            converters.Add(new StringToAssetConverter());
-            converters.Add(new StringToAssetReferenceConverter());
-            converters.Add(new JsonSerializableClassConverter());
-            converters.Add(new StringToPrimitiveTypeConverter());
-            converters.Add(new PrimitiveTypeConverter());
+            typeConverter.ResetToDefault();
         }
         
         public bool CanConvert(Type fromType, Type toType)
         {
-            return converters.Any(x => x.CanConvert(fromType, toType));
+            return typeConverter.CanConvert(fromType,toType);
         }
 
         public (bool isValid, object result) TryConvert(object source, Type target)
         {
-            if (source == null) {
-                return (false, source);
-            }
-
-            for (var i = 0; i < converters.Count; i++) {
-                var converter     = converters[i];
-                var convertResult = converter.TryConvert(source, target);
-                if (convertResult.isValid)
-                    return convertResult;
-            }
-
-            return (false, source);
+            return typeConverter.TryConvert(source, target);
         }
 
         public object ConvertValue(object source, Type toType)
         {
-            if (source == null)
-                return null;
-            
-            var sourceType = source.GetType();
-            if (sourceType == toType || toType.IsAssignableFrom(sourceType)) {
-                return source;
-            }
+            return typeConverter.ConvertValue(source, toType);
+        }
 
-            var convertResult = TryConvert(source, toType);
-
-            if (!convertResult.isValid) {
-                GameLog.LogWarning($"Convert Failed for {source} to Type = {toType.Name}",this);
-            }
-            
-            return convertResult.result;
+#if ODIN_INSPECTOR
+        [Sirenix.OdinInspector.OnInspectorInit]
+#endif
+        private void OnInspectorInitialize()
+        {
+            if(typeConverter.converters.Count == 0)
+                typeConverter.ResetToDefault();
         }
     }
 }
