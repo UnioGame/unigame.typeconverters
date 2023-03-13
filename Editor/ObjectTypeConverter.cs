@@ -38,6 +38,8 @@
         
 #if ODIN_INSPECTOR
         [Sirenix.OdinInspector.ListDrawerSettings(Expanded = true)]
+        [Sirenix.OdinInspector.InlineProperty]
+        [Sirenix.OdinInspector.HideLabel]
 #endif
         public TypeConverter typeConverter = new TypeConverter();
 
