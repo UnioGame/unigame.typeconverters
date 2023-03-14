@@ -44,9 +44,6 @@
         public TypeConverter typeConverter = new TypeConverter();
 
         [ContextMenu(nameof(ResetToDefault))]
-#if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.Button]
-#endif
         public void ResetToDefault()
         {
             typeConverter.ResetToDefault();
