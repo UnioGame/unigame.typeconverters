@@ -41,26 +41,26 @@ namespace UniModules.UniGame.TypeConverters.Editor
                 return (true,textValue);
             }
 
-            if (source is string value) {
-                try
-                {
-                    var serializedData = JsonConvert.DeserializeObject(value, target);
-                    return (true,serializedData);
-                }
-                catch (JsonReaderException exception)
-                {
-                    Debug.LogError($"{nameof(JsonSerializableClassConverter)}: There was exception while deserialization\nTarget: {target};\nValue: {value};\nMessage: {exception.Message}");
-                    
-                    return (false, source);
-                }
-                catch (JsonSerializationException exception)
-                {
-                    Debug.LogError($"{nameof(JsonSerializableClassConverter)}: There was exception while deserialization\nTarget: {target};\nValue: {value};\nMessage: {exception.Message}");
-
-                    return (false, source);
-                }
-            }
+            if (source is not string value) return (false, source);
             
+            try
+            {
+                var serializedData = JsonConvert.DeserializeObject(value, target);
+                return (true,serializedData);
+            }
+            catch (JsonReaderException exception)
+            {
+                Debug.LogWarning($"{nameof(JsonSerializableClassConverter)}: There was exception while deserialization\nTarget: {target};\nValue: {value};\nMessage: {exception.Message}");
+                    
+                return (false, source);
+            }
+            catch (JsonSerializationException exception)
+            {
+                Debug.LogWarning($"{nameof(JsonSerializableClassConverter)}: There was exception while deserialization\nTarget: {target};\nValue: {value};\nMessage: {exception.Message}");
+
+                return (false, source);
+            }
+
             return (false, source);
         }
     }
