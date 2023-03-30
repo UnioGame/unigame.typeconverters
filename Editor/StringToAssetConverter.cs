@@ -4,7 +4,6 @@
     using System.Linq;
     using UniModules.Editor;
     using global::UniGame.Core.Runtime.Extension;
-    using UnityEngine;
 
     [Serializable]
     public class StringToAssetConverter : BaseTypeConverter

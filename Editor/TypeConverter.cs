@@ -26,6 +26,7 @@
             this.converters.Clear();
                                 
             converters.Add(new AssetReferenceToStringConverter());
+            converters.Add(new ConvertableTypeConverter());
             converters.Add(new AssetToStringConverter());
             converters.Add(new StringToAssetConverter());
             converters.Add(new StringToAssetReferenceConverter());

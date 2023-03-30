@@ -3,8 +3,13 @@
     using System;
     using Abstract;
     using Core.EditorTools.Editor;
-    using UniModules.Editor;
+    
     using UnityEngine;
+    
+#if UNITY_EDITOR
+    using UnityEditor;
+    using UniModules.Editor;
+#endif
 
     [CreateAssetMenu(menuName = "UniGame/ObjectTypeConverter/Create Converter", fileName = nameof(ObjectTypeConverter))]
     public class ObjectTypeConverter : ScriptableObject, ITypeConverter
@@ -47,6 +52,7 @@
         public void ResetToDefault()
         {
             typeConverter.ResetToDefault();
+            UpdateConverters();
         }
         
         public bool CanConvert(Type fromType, Type toType)
@@ -62,6 +68,28 @@
         public object ConvertValue(object source, Type toType)
         {
             return typeConverter.ConvertValue(source, toType);
+        }
+        
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
+        public static void UpdateConverters()
+        {
+#if UNITY_EDITOR
+            var assets = AssetEditorTools.GetAssets<ObjectTypeConverter>();
+            foreach (var asset in assets)
+            {
+                if (asset == null) return;
+            
+                var converters = asset.typeConverter.converters;
+            
+                foreach (var converter in converters)
+                {
+                    if(converter is IUpdatableOnDomainReload updatable)
+                        updatable.UpdateConverter();
+                }
+
+                asset.MarkDirty();
+            }
+#endif
         }
 
 #if ODIN_INSPECTOR
