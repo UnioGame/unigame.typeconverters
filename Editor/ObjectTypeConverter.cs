@@ -65,7 +65,7 @@
             return typeConverter.TryConvert(source, target);
         }
 
-        public object ConvertValue(object source, Type toType)
+        public TypeConverterResult ConvertValue(object source, Type toType)
         {
             return typeConverter.ConvertValue(source, toType);
         }

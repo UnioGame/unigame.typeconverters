@@ -61,14 +61,22 @@
             return result;
         }
 
-        public object ConvertValue(object source, Type toType)
+        public TypeConverterResult ConvertValue(object source, Type toType)
         {
-            if (source == null)
-                return null;
+            var result = new TypeConverterResult()
+            {
+                IsComplete = false,
+                Result = null,
+            };
+            
+            if (source == null) return result;
             
             var sourceType = source.GetType();
-            if (sourceType == toType || toType.IsAssignableFrom(sourceType)) {
-                return source;
+            if (sourceType == toType || toType.IsAssignableFrom(sourceType))
+            {
+                result.IsComplete = true;
+                result.Result = source;
+                return result;
             }
 
             var convertResult = TryConvert(source, toType);
@@ -76,8 +84,8 @@
             if (!convertResult.IsComplete) {
                 GameLog.LogWarning($"Convert Failed for {source} to Type = {toType.Name}");
             }
-            
-            return convertResult.Result;
+
+            return convertResult;
         }
     }
 }
