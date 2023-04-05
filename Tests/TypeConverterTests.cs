@@ -27,9 +27,9 @@
             
             //action
             var result       = converter.TryConvert(sourceValue, typeof(string));
-            var resultString = result.result as string;
-            Assert.That(result.isValid);
-            Assert.That(result.result is string);
+            var resultString = result.Result as string;
+            Assert.That(result.IsComplete);
+            Assert.That(result.Result is string);
             Assert.That(resultString == checkText);
         }
         
@@ -42,9 +42,9 @@
             
             //action
             var result       = converter.TryConvert(sourceString, typeof(List<string>));
-            var resultValue = result.result as List<string>;
-            Assert.That(result.isValid);
-            Assert.That(result.result is List<string>);
+            var resultValue = result.Result as List<string>;
+            Assert.That(result.IsComplete);
+            Assert.That(result.Result is List<string>);
             Assert.That(resultValue.Count == 2);
             Assert.That(resultValue.SequenceEqual(sourceValue));
         }
@@ -58,9 +58,9 @@
             
             //action
             var result      = converter.TryConvert(sourceString, typeof(List<int>));
-            var resultValue = result.result as List<int>;
-            Assert.That(result.isValid);
-            Assert.That(result.result is List<int>);
+            var resultValue = result.Result as List<int>;
+            Assert.That(result.IsComplete);
+            Assert.That(result.Result is List<int>);
             Assert.That(resultValue.Count == 2);
             Assert.That(resultValue.SequenceEqual(sourceValue));
         }
@@ -74,9 +74,9 @@
             
             //action
             var result       = converter.TryConvert(sourceValue, typeof(string));
-            var resultString = result.result as string;
-            Assert.That(result.isValid);
-            Assert.That(result.result is string);
+            var resultString = result.Result as string;
+            Assert.That(result.IsComplete);
+            Assert.That(result.Result is string);
             Assert.That(resultString == checkText);
         }
         
@@ -89,8 +89,8 @@
             
             //action
             var result       = converter.TryConvert(sourceString, typeof(int));
-            var resultValue = (int)result.result;
-            Assert.That(result.isValid);
+            var resultValue = (int)result.Result;
+            Assert.That(result.IsComplete);
             Assert.That(resultValue == sourceValue);
         }
         
@@ -103,8 +103,8 @@
             
             //action
             var result      = converter.TryConvert(sourceString, typeof(float));
-            var resultValue = (float)result.result;
-            Assert.That(result.isValid);
+            var resultValue = (float)result.Result;
+            Assert.That(result.IsComplete);
             Assert.That(Mathf.Approximately(sourceValue,resultValue));
         }
         
@@ -117,8 +117,8 @@
             
             //action
             var result      = converter.TryConvert(sourceString, typeof(float));
-            var resultValue = (float)result.result;
-            Assert.That(result.isValid);
+            var resultValue = (float)result.Result;
+            Assert.That(result.IsComplete);
             Assert.That(Mathf.Approximately(sourceValue,resultValue));
         }
         
@@ -130,8 +130,8 @@
             
             //action
             var result      = converter.TryConvert(sourceValue, typeof(float));
-            var resultValue = (float)result.result;
-            Assert.That(result.isValid);
+            var resultValue = (float)result.Result;
+            Assert.That(result.IsComplete);
             Assert.That(Mathf.Approximately(sourceValue,resultValue));
         }
         

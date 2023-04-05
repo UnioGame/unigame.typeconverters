@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using Abstract;
     using UniModules.Editor;
     using global::UniGame.Core.Runtime.Extension;
     using UnityEngine;
@@ -23,20 +24,28 @@
             return toType == stringType && fromType.IsAsset();
         }
 
-        public sealed override (bool isValid, object result) TryConvert(object source, Type target)
+        public sealed override TypeConverterResult TryConvert(object source, Type target)
         {
+            var result = new TypeConverterResult()
+            {
+                Result = source,
+                IsComplete = false,
+                Target = target,
+            };
+            
             if (source == null || !CanConvert(source.GetType(), target)) {
-                return (false, source);
+                return result;
             }
 
-            if (source is Object asset) {
-                var value = addTypeFilter ? 
-                    $"t:{asset.GetType().Name} {asset.name}" : 
-                    asset.name;
-                return (true, value);
-            }
+            if (source is not Object asset) return result;
+            
+            var value = addTypeFilter ? 
+                $"t:{asset.GetType().Name} {asset.name}" : 
+                asset.name;
+            result.Result = value;
+            result.IsComplete = true;
+            return result;
 
-            return (false, string.Empty);
         }
     }
 }

@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel;
     using System.Globalization;
+    using Abstract;
     using UnityEngine;
 
     [Serializable]
@@ -19,15 +20,25 @@
             return sourceValidation && destValidation;
         }
 
-        public sealed override (bool isValid, object result) TryConvert(object source, Type target)
+        public sealed override TypeConverterResult TryConvert(object source, Type target)
         {
+            var result = new TypeConverterResult()
+            {
+                Result = source,
+                IsComplete = false,
+                Target = target,
+            };
+            
             var sourceType = source?.GetType();
             if (!CanConvert(sourceType, target))
-                return (false, source);
+                return result;
             
             var sourceValue = source == null ? string.Empty : source as string;
+            var resultValue = ConvertValue(sourceValue,target);
+            result.IsComplete = true;
+            result.Result = resultValue;
             
-            return (true,ConvertValue(sourceValue,target));
+            return result;
         }
 
         public object ConvertValue(string source, Type target)

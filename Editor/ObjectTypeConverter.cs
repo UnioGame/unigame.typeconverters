@@ -60,7 +60,7 @@
             return typeConverter.CanConvert(fromType,toType);
         }
 
-        public (bool isValid, object result) TryConvert(object source, Type target)
+        public TypeConverterResult TryConvert(object source, Type target)
         {
             return typeConverter.TryConvert(source, target);
         }

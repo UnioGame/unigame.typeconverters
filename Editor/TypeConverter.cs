@@ -40,20 +40,25 @@
             return converters.Any(x => x.CanConvert(fromType, toType));
         }
 
-        public (bool isValid, object result) TryConvert(object source, Type target)
+        public TypeConverterResult TryConvert(object source, Type target)
         {
-            if (source == null) {
-                return (false, source);
-            }
+            var result = new TypeConverterResult()
+            {
+                Result = source,
+                IsComplete = false,
+                Target = target,
+            };
+            
+            if (source == null) return result;
 
             for (var i = 0; i < converters.Count; i++) {
                 var converter     = converters[i];
                 var convertResult = converter.TryConvert(source, target);
-                if (convertResult.isValid)
+                if (convertResult.IsComplete)
                     return convertResult;
             }
 
-            return (false, source);
+            return result;
         }
 
         public object ConvertValue(object source, Type toType)
@@ -68,11 +73,11 @@
 
             var convertResult = TryConvert(source, toType);
 
-            if (!convertResult.isValid) {
+            if (!convertResult.IsComplete) {
                 GameLog.LogWarning($"Convert Failed for {source} to Type = {toType.Name}");
             }
             
-            return convertResult.result;
+            return convertResult.Result;
         }
     }
 }

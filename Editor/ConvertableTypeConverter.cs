@@ -28,18 +28,27 @@
             return false;
         }
 
-        public sealed override (bool isValid, object result) TryConvert(object source, Type target)
+        public sealed override TypeConverterResult TryConvert(object source, Type target)
         {
-            if(source == null) return (false, source);
+            var result = new TypeConverterResult()
+            {
+                Result = source,
+                IsComplete = false,
+                Target = target,
+            };
+            
+            if(source == null) return result;
             
             foreach (var converter in converters)
             {
                 if(!converter.CanConvert(source.GetType(),target)) continue;
-                var result = converter.TryConvert(source, target);
-                if(result.isValid) return result;
+                var convertResult = converter.TryConvert(source, target);
+                if(!convertResult.IsComplete) continue;
+                result.Result = convertResult.Result;
+                result.IsComplete = true;
             }
 
-            return (false, source);
+            return result;
         }
         
         public void UpdateConverter()

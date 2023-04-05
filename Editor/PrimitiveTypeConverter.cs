@@ -1,6 +1,7 @@
 ﻿namespace UniModules.UniGame.TypeConverters.Editor
 {
     using System;
+    using Abstract;
     using UnityEngine;
 
     [Serializable]
@@ -19,15 +20,27 @@
             return result;
         }
 
-        public override (bool isValid, object result) TryConvert(object source, Type target)
+        public override TypeConverterResult TryConvert(object source, Type target)
         {
+            var result = new TypeConverterResult()
+            {
+                Result = source,
+                IsComplete = false,
+                Target = target,
+            };
+            
             if (source == null) {
-                return ConvertToDefault(target);
+                return ConvertToDefault(target,result);
             }
 
             var sourceType = source.GetType();
             var canConvert = CanConvert(sourceType, target);
-            return (canConvert, canConvert ? ConvertValue(source, target) : source);
+            if (!canConvert) return result;
+
+            result.IsComplete = true;
+            result.Result = ConvertValue(source, target);
+            
+            return result;
         }
 
         public object ConvertValue(object source, Type target)
@@ -37,16 +50,26 @@
                 source;
         }
 
-        private (bool isValid, object result) ConvertToDefault(Type target)
+        private TypeConverterResult ConvertToDefault(Type target,TypeConverterResult result)
         {
             switch (target) {
-                case Type to when to.IsPrimitive:
-                    return (true,Activator.CreateInstance(target));   
+                case Type {IsPrimitive: true}:
+                {
+                    result.IsComplete = true;
+                    result.Result = Activator.CreateInstance(target);
+                    return result;
+                }
                 case Type to when to == typeof(string):
-                    return  (true,string.Empty);   
+                {
+                    result.IsComplete = true;
+                    result.Result = string.Empty;
+                    return  result;
+                }   
                 default:
-                    return (false,null);
+                    return result;
             }
+
+            return result;
         }
     }
 }

@@ -24,16 +24,16 @@
             var arrayInt = converter.TryConvert(serializedValue, typeof(int[]));
             var arrayString = converter.TryConvert(serializedValue, typeof(string[]));
             
-            Debug.Log(listResult.result);
-            Debug.Log(listStringResult.result);
-            Debug.Log(arrayInt.result);
-            Debug.Log(arrayString.result);
+            Debug.Log(listResult.Result);
+            Debug.Log(listStringResult.Result);
+            Debug.Log(arrayInt.Result);
+            Debug.Log(arrayString.Result);
             
             //check
-            Assert.That(listResult.isValid);
-            Assert.That(listStringResult.isValid);
-            Assert.That(arrayInt.isValid);
-            Assert.That(arrayString.isValid);
+            Assert.That(listResult.IsComplete);
+            Assert.That(listStringResult.IsComplete);
+            Assert.That(arrayInt.IsComplete);
+            Assert.That(arrayString.IsComplete);
 
         }
 
@@ -48,15 +48,12 @@
             
             //action
 
-            var listResult  =converter.TryConvert(targetList, typeof(string));
+            var listResult  = converter.TryConvert(targetList, typeof(string));
             var arrayResult = converter.TryConvert(targetArray, typeof(string));
-            
-            Debug.Log(listResult.result);
-            Debug.Log(arrayResult.result);
-            
+
             //check
-            Assert.That(listResult.isValid);
-            Assert.That(arrayResult.isValid);
+            Assert.That(listResult.IsComplete);
+            Assert.That(arrayResult.IsComplete);
 
         }
         

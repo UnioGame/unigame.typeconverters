@@ -1,6 +1,7 @@
 ﻿namespace UniModules.UniGame.TypeConverters.Editor
 {
     using System;
+    using Abstract;
     using AddressableExtensions.Editor;
     using UniModules.Editor;
     using UnityEngine;
@@ -22,16 +23,27 @@
             return true;
         }
 
-        public sealed override (bool isValid, object result) TryConvert(object source, Type target)
+        public sealed override TypeConverterResult TryConvert(object source, Type target)
         {
-            if (source == null) return (false, source);
+            var result = new TypeConverterResult()
+            {
+                Result = source,
+                IsComplete = false,
+                Target = target,
+            };
+            
+            if (source == null) return result;
 
             var sourceType = source.GetType();
             var canConvert = CanConvert(sourceType, target);
-            if(!canConvert) return (false, source);
-            
-            if(assetReferenceType.IsAssignableFrom(sourceType))
-                return (true, source);
+            if(!canConvert) return result;
+
+            if (assetReferenceType.IsAssignableFrom(sourceType))
+            {
+                result.Result = source;
+                result.IsComplete = true;
+                return result;
+            }
 
             var filter = source as string;
             
@@ -44,11 +56,15 @@
                 guid = asset.GetGUID();
             }
 
-            if (string.IsNullOrEmpty(guid)) return (false, source);
+            if (string.IsNullOrEmpty(guid)) return result;
 
             var args = new object[]{guid};
             var reference = Activator.CreateInstance(target, args);
-            return (true, reference);
+
+            result.IsComplete = true;
+            result.Result = reference;
+            
+            return result;
         }
         
         

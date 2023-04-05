@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace UniModules.UniGame.TypeConverters.Editor
 {
+    using Abstract;
     using Newtonsoft.Json;
     using UniModules.UniCore.Runtime.ReflectionUtils;
 
@@ -30,38 +31,54 @@ namespace UniModules.UniGame.TypeConverters.Editor
             return false;
         }
 
-        public sealed override (bool isValid, object result) TryConvert(object source, Type target)
+        public sealed override TypeConverterResult TryConvert(object source, Type target)
         {
+            var result = new TypeConverterResult()
+            {
+                Result = source,
+                IsComplete = false,
+                Target = target,
+            };
+            
             if (source == null || !CanConvert(source.GetType(), target)) {
-                return (false, source);
+                return result;
             }
             
             if (target == stringType) {
                 var textValue = JsonConvert.SerializeObject(source);
-                return (true,textValue);
+                result.Result = textValue;
+                result.IsComplete = true;
+                return result;
             }
 
-            if (source is not string value) return (false, source);
+            if (source is not string value) return result;
             
             try
             {
                 var serializedData = JsonConvert.DeserializeObject(value, target);
-                return (true,serializedData);
+                result.Result = serializedData;
+                result.IsComplete = true;
             }
             catch (JsonReaderException exception)
             {
-                Debug.LogWarning($"{nameof(JsonSerializableClassConverter)}: There was exception while deserialization\nTarget: {target};\nValue: {value};\nMessage: {exception.Message}");
-                    
-                return (false, source);
+                var message =
+                    $"{nameof(JsonSerializableClassConverter)}: There was exception while deserialization\nTarget: {target};\nValue: {value};\nMessage: {exception.Message}";
+                Debug.LogError(message);
+                result.Exception = exception;
+                result.Message = message;
+                return result;
             }
             catch (JsonSerializationException exception)
             {
-                Debug.LogWarning($"{nameof(JsonSerializableClassConverter)}: There was exception while deserialization\nTarget: {target};\nValue: {value};\nMessage: {exception.Message}");
-
-                return (false, source);
+                var message =
+                    $"{nameof(JsonSerializableClassConverter)}: There was exception while deserialization\nTarget: {target};\nValue: {value};\nMessage: {exception.Message}";
+                Debug.LogError(message);
+                result.Exception = exception;
+                result.Message = message;
+                return result;
             }
 
-            return (false, source);
+            return result;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace UniModules.UniGame.TypeConverters.Editor
 {
     using System;
+    using Abstract;
     using UniModules.Editor;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
@@ -25,14 +26,20 @@
             return toType == stringType && assetReferenceType.IsAssignableFrom(fromType);
         }
 
-        public sealed override (bool isValid, object result) TryConvert(object source, Type target)
+        public sealed override TypeConverterResult TryConvert(object source, Type target)
         {
-            if (source == null)
-                return (false, source);
+            var result = new TypeConverterResult()
+            {
+                Result = source,
+                IsComplete = false,
+                Target = target,
+            };
+            
+            if (source == null) return result;
+            
             var sourceType = source.GetType();
 
-            if(!CanConvert(sourceType, target))
-                return (false, source);
+            if(!CanConvert(sourceType, target)) return result;
  
             var reference = source as AssetReference;
             var asset     = reference?.editorAsset;
@@ -43,7 +50,10 @@
                     $"t:{asset.GetType().Name} {asset.name}" :
                     asset.name;
             
-            return (true, assetName);
+            result.Result = assetName;
+            result.IsComplete = true;
+            
+            return result;
         }
         
     }
