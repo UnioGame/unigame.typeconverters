@@ -19,6 +19,16 @@
             return convertResult.IsComplete;
         }
         
+        public static bool TryConvert<TType>(this object source, out TType result,TType defaultValue)
+        {
+            var convertResult = ObjectTypeConverter.TypeConverters
+                .TryConvert(source, typeof(TType));
+            
+            result = defaultValue;
+            if(convertResult.IsComplete) result = (TType) convertResult.Result;
+            return convertResult.IsComplete;
+        }
+        
         public static T TryConvert<T>(this object source)
             where T : class
         {
