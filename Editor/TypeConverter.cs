@@ -7,12 +7,17 @@
     using global::UniCore.Runtime.ProfilerTools;
     using UnityEngine;
 
+#if ODIN_INSPECTOR
+    using Sirenix.OdinInspector;
+#endif
+
     [Serializable]
     public class TypeConverter : ITypeConverter
     {
         
 #if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.ListDrawerSettings(Expanded = true)]
+        [ListDrawerSettings()]
+        [InlineProperty]
 #endif
         [SerializeReference]
         public List<BaseTypeConverter> converters = new List<BaseTypeConverter>();
