@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Abstract;
+    using Game.Modules.UnioModules.UniGame.CoreModules.UniGame.TypeConverters.Editor;
     using global::UniCore.Runtime.ProfilerTools;
     using UnityEngine;
 
@@ -29,12 +30,16 @@
         public void ResetToDefault()
         {
             this.converters.Clear();
-                                
+
+            var convertable = new ConvertableTypeConverter();
+            convertable.FillConverters();
+            
             converters.Add(new AssetReferenceToStringConverter());
-            converters.Add(new ConvertableTypeConverter());
+            converters.Add(convertable);
             converters.Add(new AssetToStringConverter());
             converters.Add(new StringToAssetConverter());
             converters.Add(new StringToAssetReferenceConverter());
+            converters.Add(new StringToVectorTypeConverter());
             converters.Add(new JsonSerializableClassConverter());
             converters.Add(new StringToPrimitiveTypeConverter());
             converters.Add(new PrimitiveTypeConverter());

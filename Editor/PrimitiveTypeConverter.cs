@@ -2,7 +2,6 @@
 {
     using System;
     using Abstract;
-    using UnityEngine;
 
     [Serializable]
     public class PrimitiveTypeConverter : BaseTypeConverter
