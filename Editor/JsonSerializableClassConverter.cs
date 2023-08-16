@@ -52,6 +52,7 @@ namespace UniModules.UniGame.TypeConverters.Editor
             }
 
             if (source is not string value) return result;
+            if (string.IsNullOrEmpty(value)) return result;
             
             try
             {

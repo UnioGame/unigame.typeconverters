@@ -6,6 +6,7 @@
     using UniModules.Editor;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
+    using Object = UnityEngine.Object;
 
     [Serializable]
     public class StringToAssetReferenceConverter : BaseTypeConverter
@@ -31,8 +32,8 @@
                 IsComplete = false,
                 Target = target,
             };
-            
-            if (source == null) return result;
+            var filter = source as string;
+            if (source == null || string.IsNullOrEmpty(filter)) return result;
 
             var sourceType = source.GetType();
             var canConvert = CanConvert(sourceType, target);
@@ -44,16 +45,23 @@
                 result.IsComplete = true;
                 return result;
             }
-
-            var filter = source as string;
             
             var addressableAssetEntry = filter.FindAddressableAssetEntryByAddress();
             var guid = addressableAssetEntry?.guid;
             
             if(addressableAssetEntry == null)
             {
-                var asset = AssetEditorTools.GetAsset(filter);
-                guid = asset.GetGUID();
+                Object asset = null;
+                if (target.IsGenericType && !filter.Contains("t:",StringComparison.OrdinalIgnoreCase))
+                {
+                    var genericType = target.GetGenericArguments()[0];
+                    asset = AssetEditorTools.GetAsset(genericType,filter);
+                }
+                else
+                {
+                    asset = AssetEditorTools.GetAsset(filter);
+                }
+                guid = asset == null ? string.Empty : asset.GetGUID();
             }
 
             if (string.IsNullOrEmpty(guid)) return result;
