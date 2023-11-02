@@ -2,7 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Abstract;
+    using Sirenix.OdinInspector;
     using UniCore.Runtime.ReflectionUtils;
     using UniCore.Runtime.Utils;
     using UnityEngine;
@@ -51,27 +53,35 @@
             return result;
         }
         
+        [Button]
         public void UpdateConverter()
         {
             FillConverters();
         }
         
 #if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.Button]
+        [Button]
 #endif
         public ConvertableTypeConverter FillConverters()
         {
 #if UNITY_EDITOR
 
-            converters.Clear();
-            var typeInstances = typeof(IGameTypeConverter).GetAssignableTypes();
+            converters.RemoveAll(x => x == null);
+            
+            var types = TypeCache.GetTypesDerivedFrom<IGameTypeConverter>();
 
-            foreach (var instanceType in typeInstances)
+            foreach (var instanceType in types)
             {
+                if(instanceType.IsAbstract || instanceType.IsInterface) continue;
                 if(!instanceType.HasDefaultConstructor()) continue;
+                
+                if(converters.FirstOrDefault(x => x.GetType() == instanceType)!=null) 
+                    continue;
+                
                 var value = instanceType.CreateWithDefaultConstructor();
                 var instance = value as IGameTypeConverter;
                 if(instance==null || value is Object) continue;
+                
                 converters.Add(instance);
             }
             

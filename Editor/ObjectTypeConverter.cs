@@ -3,12 +3,13 @@
     using System;
     using Abstract;
     using Core.EditorTools.Editor;
-    
+    using Sirenix.OdinInspector;
     using UnityEngine;
     
 #if UNITY_EDITOR
     using UnityEditor;
     using UniModules.Editor;
+    using UnityEngine.Profiling;
 #endif
 
     [CreateAssetMenu(menuName = "UniGame/ObjectTypeConverter/Create Converter", fileName = nameof(ObjectTypeConverter))]
@@ -77,18 +78,24 @@
             var assets = AssetEditorTools.GetAssets<ObjectTypeConverter>();
             foreach (var asset in assets)
             {
-                if (asset == null) return;
-            
-                var converters = asset.typeConverter.converters;
-            
-                foreach (var converter in converters)
-                {
-                    if(converter is IUpdatableOnDomainReload updatable)
-                        updatable.UpdateConverter();
-                }
-
-                asset.MarkDirty();
+                asset.Rebuild();
             }
+#endif
+        }
+
+        [Button]
+        public void Rebuild()
+        {
+#if UNITY_EDITOR
+            var converters = typeConverter.converters;
+            
+            foreach (var converter in converters)
+            {
+                if(converter is IUpdatableOnDomainReload updatable)
+                    updatable.UpdateConverter();
+            }
+            
+            this.MarkDirty();
 #endif
         }
 
