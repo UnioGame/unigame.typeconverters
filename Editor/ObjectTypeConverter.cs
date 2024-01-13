@@ -3,13 +3,16 @@
     using System;
     using Abstract;
     using Core.EditorTools.Editor;
-    using Sirenix.OdinInspector;
     using UnityEngine;
     
 #if UNITY_EDITOR
     using UnityEditor;
     using UniModules.Editor;
     using UnityEngine.Profiling;
+#endif
+    
+#if ODIN_INSPECTOR
+    using Sirenix.OdinInspector;
 #endif
 
     [CreateAssetMenu(menuName = "UniGame/ObjectTypeConverter/Create Converter", fileName = nameof(ObjectTypeConverter))]
@@ -83,7 +86,9 @@
 #endif
         }
 
+#if ODIN_INSPECTOR
         [Button]
+#endif
         public void Rebuild()
         {
 #if UNITY_EDITOR

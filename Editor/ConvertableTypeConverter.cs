@@ -4,12 +4,15 @@
     using System.Collections.Generic;
     using System.Linq;
     using Abstract;
-    using Sirenix.OdinInspector;
     using UniCore.Runtime.ReflectionUtils;
     using UniCore.Runtime.Utils;
     using UnityEngine;
     using Object = UnityEngine.Object;
 
+#if ODIN_INSPECTOR
+     using Sirenix.OdinInspector;
+#endif
+    
 #if UNITY_EDITOR
     using UnityEditor;
 #endif
@@ -53,7 +56,10 @@
             return result;
         }
         
+        
+#if ODIN_INSPECTOR
         [Button]
+#endif
         public void UpdateConverter()
         {
             FillConverters();
