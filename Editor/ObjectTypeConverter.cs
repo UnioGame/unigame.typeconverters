@@ -23,7 +23,7 @@
         private static string _defaultConverterPath;
         
         public static string DefaultConverterPath => _defaultConverterPath = string.IsNullOrEmpty(_defaultConverterPath) ?
-                EditorFileUtils.Combine(EditorPathConstants.GeneratedContentPath,"TypeConverters/Editor/") : 
+                FileUtils.Combine(EditorPathConstants.GeneratedContentPath,"TypeConverters/Editor/") : 
                 _defaultConverterPath;
 
         private static ObjectTypeConverter _typeConverters;
