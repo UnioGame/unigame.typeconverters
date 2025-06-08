@@ -1,7 +1,7 @@
-﻿namespace Game.Modules.UnioModules.UniGame.CoreModules.UniGame.TypeConverters.Editor
+﻿namespace UniGame.TypeConverters
 {
     using System;
-    using UniModules.UniCore.Runtime.Utils;
+    using Runtime.Utils;
     using UniModules.UniGame.TypeConverters.Editor;
     using UniModules.UniGame.TypeConverters.Editor.Abstract;
     using UnityEngine;

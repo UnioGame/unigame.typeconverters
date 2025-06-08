@@ -8,7 +8,7 @@ namespace UniModules.UniGame.TypeConverters.Editor
 {
     using Abstract;
     using Newtonsoft.Json;
-    using UniModules.UniCore.Runtime.ReflectionUtils;
+    using global::UniGame.Runtime.ReflectionUtils;
 
     [Serializable]
     public class JsonSerializableClassConverter : BaseTypeConverter

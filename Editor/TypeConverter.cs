@@ -4,8 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Abstract;
-    using Game.Modules.UnioModules.UniGame.CoreModules.UniGame.TypeConverters.Editor;
-    using global::UniCore.Runtime.ProfilerTools;
+    using global::UniGame.TypeConverters;
     using UnityEngine;
 
 #if ODIN_INSPECTOR
@@ -29,7 +28,7 @@
 #endif
         public void ResetToDefault()
         {
-            this.converters.Clear();
+            converters.Clear();
 
             var convertable = new ConvertableTypeConverter();
             convertable.FillConverters();
@@ -92,7 +91,7 @@
             var convertResult = TryConvert(source, toType);
 
             if (!convertResult.IsComplete) {
-                GameLog.LogWarning($"Convert Failed for {source} to Type = {toType.Name}");
+                Debug.LogWarning($"Convert Failed for {source} to Type = {toType.Name}");
             }
 
             return convertResult;

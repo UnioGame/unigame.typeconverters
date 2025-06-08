@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using Abstract;
-    using UniCore.Runtime.ReflectionUtils;
-    using UniCore.Runtime.Utils;
+    using global::UniGame.Runtime.ReflectionUtils;
+    using global::UniGame.Runtime.Utils;
     using UnityEngine;
     using Object = UnityEngine.Object;
 
