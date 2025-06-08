@@ -1,19 +1,19 @@
 {
   "name": "com.unigame.typeconverters",
   "author": "UniGame",
-  "displayName": "Editor Scriptable Type Converters",
+  "displayName": "Unity Scriptable Type Converters",
   "description": "Scriptable Editor types converters",
   "unity": "2019.1",
-  "version": "2022.0.0",
+  "version": "2025.0.0",
   "keywords": [
     "type",
     "editor",
     "converters"
   ],
   "dependencies": {
-    "com.unigame.neuecc.unirx": "7.1.2",
-    "com.unigame.neuecc.unitask": "2.2.5",
-    "com.unigame.unicore": "2022.0.0",
-    "com.unity.addressables": "1.20.0"
+    "com.unigame.addressablestools" : "https://github.com/UnioGame/unigame.addressables.git",
+    "com.unigame.unicore": "https://github.com/UnioGame/unigame.core.git",
+    "com.cysharp.unitask" : "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+    "com.unity.addressables": "2.6.0"
   }
 }
