@@ -4,6 +4,6 @@
 
 ```
 "dependencies": {
-   "com.unigame.typeconverters" : "https://github.com/UnioGame/UniGame.TypeConverters.git"
+   "com.unigame.typeconverters" : "https://github.com/UnioGame/unigame.typeconverters.git"
 }
 ```
