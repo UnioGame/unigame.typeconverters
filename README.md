@@ -1,7 +1,9 @@
-# Unity Google Sheets v.4 Importer
+# Unity Scriptable Type Converter
 
-## Google API
+# Installations
 
-https://developers.google.com/sheets/api/quickstart/dotnet
-
-https://googleapis.dev/dotnet/Google.Apis.Sheets.v4/latest/api/Google.Apis.Sheets.v4.html
+```
+"dependencies": {
+   "com.unigame.typeconverters" : "https://github.com/UnioGame/UniGame.TypeConverters.git"
+}
+```
