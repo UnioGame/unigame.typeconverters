@@ -31,14 +31,12 @@ namespace UniGame.TypeConverters.Editor
             }
 
             var assetFilter = source as string;
-            var assets = AssetEditorTools.GetAssets(target,assetFilter);
-            if (assets.Count <= 0)
-            {
-                assets = AssetEditorTools.GetAssets(assetFilter);
-            }
+            var asset = AssetEditorTools.GetAsset(target,assetFilter);
+            if (asset == null)
+                asset = AssetEditorTools.GetAsset(assetFilter);
             
-            result.Result = assets.FirstOrDefault();
-            result.IsComplete = assets.Count > 0;
+            result.Result = asset;
+            result.IsComplete = asset!=null;
             
             return result;
         }
