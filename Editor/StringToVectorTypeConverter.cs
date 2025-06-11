@@ -2,8 +2,8 @@
 {
     using System;
     using Runtime.Utils;
-    using UniModules.UniGame.TypeConverters.Editor;
-    using UniModules.UniGame.TypeConverters.Editor.Abstract;
+    using Editor;
+    using Editor.Abstract;
     using UnityEngine;
 
     [Serializable]

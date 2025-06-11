@@ -1,11 +1,12 @@
-﻿namespace UniModules.UniGame.TypeConverters.Editor
+﻿using UniGame.Core.Runtime.Extension;
+
+namespace UniGame.TypeConverters.Editor
 {
     using System;
     using System.Linq;
     using Abstract;
     using UniModules.Editor;
-    using global::UniGame.Core.Runtime.Extension;
-
+    
     [Serializable]
     public class StringToAssetConverter : BaseTypeConverter
     {
@@ -31,6 +32,10 @@
 
             var assetFilter = source as string;
             var assets = AssetEditorTools.GetAssets(target,assetFilter);
+            if (assets.Count <= 0)
+            {
+                assets = AssetEditorTools.GetAssets(assetFilter);
+            }
             
             result.Result = assets.FirstOrDefault();
             result.IsComplete = assets.Count > 0;

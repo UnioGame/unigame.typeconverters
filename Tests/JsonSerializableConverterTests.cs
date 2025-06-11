@@ -1,7 +1,7 @@
 ﻿namespace UniModules.UniGame.TypeConverters.Tests
 {
     using System.Collections.Generic;
-    using Editor;
+    using global::UniGame.TypeConverters.Editor;
     using NUnit.Framework;
     using UnityEngine;
 

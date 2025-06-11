@@ -4,7 +4,7 @@ using UniGame.Core.Runtime.Extension;
 using UniModules.Editor;
 using UnityEngine;
 
-namespace UniModules.UniGame.TypeConverters.Editor
+namespace UniGame.TypeConverters.Editor
 {
     using Abstract;
     using Newtonsoft.Json;

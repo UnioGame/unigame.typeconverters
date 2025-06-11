@@ -1,10 +1,10 @@
-﻿namespace UniModules.UniGame.TypeConverters.Editor
+﻿using UniGame.AddressableTools.Editor;
+
+namespace UniGame.TypeConverters.Editor
 {
     using System;
     using Abstract;
-    using global::UniGame.AddressableTools.Editor;
     using UniModules.Editor;
-    using UnityEditor.AddressableAssets.Settings;
     using UnityEngine.AddressableAssets;
     using Object = UnityEngine.Object;
 

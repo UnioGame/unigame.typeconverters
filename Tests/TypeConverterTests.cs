@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Editor;
+    using global::UniGame.TypeConverters.Editor;
     using NUnit.Framework;
     using UnityEngine;
 

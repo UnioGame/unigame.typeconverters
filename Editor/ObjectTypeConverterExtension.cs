@@ -1,4 +1,4 @@
-﻿namespace UniModules.UniGame.TypeConverters.Editor
+﻿namespace UniGame.TypeConverters.Editor
 {
     using System;
 
