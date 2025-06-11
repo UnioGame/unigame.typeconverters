@@ -2,7 +2,10 @@
 {
     using System;
     using Abstract;
-
+    
+#if ALCHEMY_INSPECTOR
+    using Alchemy.Inspector;
+#endif
 #if ODIN_INSPECTOR
     using Sirenix.OdinInspector;
 #endif
