@@ -16,7 +16,7 @@
         public sealed override bool CanConvert(Type fromType, Type toType)
         {
             var sourceValidation = fromType == stringType || fromType == null;
-            var destValidation = toType == stringType || toType.IsPrimitive;
+            var destValidation = toType == stringType || toType.IsPrimitive || toType.IsEnum;
             return sourceValidation && destValidation;
         }
 
@@ -50,6 +50,13 @@
                     return string.Empty;
                 
                 return Activator.CreateInstance(target);
+            }
+
+            if (target.IsEnum)
+            {
+                return Enum.TryParse(target, source, true, out var enumValue) 
+                    ? enumValue 
+                    : Activator.CreateInstance(target);
             }
             
             if (target == typeof(float)) {

@@ -39,6 +39,7 @@
             converters.Add(new StringToAssetConverter());
             converters.Add(new StringToAssetReferenceConverter());
             converters.Add(new StringToVectorTypeConverter());
+            converters.Add(new StringToPercentableTypeConverter());
             converters.Add(new JsonSerializableClassConverter());
             converters.Add(new StringToPrimitiveTypeConverter());
             converters.Add(new PrimitiveTypeConverter());

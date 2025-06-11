@@ -2,8 +2,9 @@
 {
     using System;
     using Abstract;
-    using AddressableExtensions.Editor;
+    using global::UniGame.AddressableTools.Editor;
     using UniModules.Editor;
+    using UnityEditor.AddressableAssets.Settings;
     using UnityEngine.AddressableAssets;
     using Object = UnityEngine.Object;
 
