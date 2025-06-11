@@ -14,6 +14,10 @@
 #if ODIN_INSPECTOR
     using Sirenix.OdinInspector;
 #endif
+    
+#if ALCHEMY_INSPECTOR
+    using Alchemy.Inspector;
+#endif
 
     [CreateAssetMenu(menuName = "UniGame/ObjectTypeConverter/Create Converter", fileName = nameof(ObjectTypeConverter))]
     public class ObjectTypeConverter : ScriptableObject, ITypeConverter
@@ -46,9 +50,9 @@
         #endregion
         
 #if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.ListDrawerSettings(Expanded = true)]
-        [Sirenix.OdinInspector.InlineProperty]
-        [Sirenix.OdinInspector.HideLabel]
+        [ListDrawerSettings(Expanded = true)]
+        [InlineProperty]
+        [HideLabel]
 #endif
         public TypeConverter typeConverter = new TypeConverter();
 
@@ -86,6 +90,9 @@
 #endif
         }
 
+#if ALCHEMY_INSPECTOR
+        [Button]
+#endif
 #if ODIN_INSPECTOR
         [Button]
 #endif
@@ -104,8 +111,11 @@
 #endif
         }
 
+#if ALCHEMY_INSPECTOR
+        [OnInspectorEnable]
+#endif
 #if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.OnInspectorInit]
+        [OnInspectorInit]
 #endif
         private void OnInspectorInitialize()
         {
