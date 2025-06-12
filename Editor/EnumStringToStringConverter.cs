@@ -11,9 +11,24 @@ namespace UniGame.TypeConverters.Editor
 
         public sealed override bool CanConvert(Type fromType, Type toType)
         {
-            if (toType != stringType) return false;
-            if (fromType.IsEnum || fromType == stringType)
-                return true;
+            if(fromType == toType) return true;
+            
+            if (toType == stringType)
+            {
+                if(fromType.IsEnum || fromType == stringType)
+                    return true;
+                return false;
+            }
+
+            if (toType.IsEnum)
+            {
+                if (fromType == stringType ||
+                    fromType == typeof(int) ||
+                    fromType == typeof(byte) ||
+                    fromType == typeof(short))
+                    return true;
+            }
+
             return false;
         }
 
@@ -32,20 +47,49 @@ namespace UniGame.TypeConverters.Editor
             
             var sourceType = source.GetType();
 
-            if (sourceType == stringType)
+            if (target == sourceType)
             {
+                result.IsComplete = true;
                 result.Result = source;
-                result.IsComplete = true;
                 return result;
             }
-
-            if (sourceType.IsEnum)
+            
+            if (target == stringType)
             {
-                result.Result = Enum.GetName(sourceType, source);
-                result.IsComplete = true;
-                return result;
-            }
+                if (sourceType == stringType)
+                {
+                    result.Result = source;
+                    result.IsComplete = true;
+                    return result;
+                }
 
+                if (sourceType.IsEnum)
+                {
+                    result.Result = Enum.GetName(sourceType, source);
+                    result.IsComplete = true;
+                    return result;
+                }
+            }
+            
+            if(target.IsEnum)
+            {
+                if (sourceType == stringType)
+                {
+                    Enum.TryParse(target, source as string, true, out var enumValue);
+                    result.Result = enumValue;
+                    result.IsComplete = true;
+                    return result;
+                }
+                if (sourceType == typeof(int) || sourceType == typeof(byte) 
+                                              || sourceType == typeof(short))
+                {
+                    var enumValue = Enum.ToObject(target, source);
+                    result.Result = enumValue;
+                    result.IsComplete = true;
+                    return result;
+                }
+            }
+            
             return result;
         }
     }
