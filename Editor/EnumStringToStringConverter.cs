@@ -2,6 +2,7 @@
 
 namespace UniGame.TypeConverters.Editor
 {
+    using System.Linq;
     using Abstract;
 
     [Serializable]
@@ -75,9 +76,19 @@ namespace UniGame.TypeConverters.Editor
             {
                 if (sourceType == stringType)
                 {
-                    Enum.TryParse(target, source as string, true, out var enumValue);
+                    var sourceString = source as string;
+                    //if we have empty string, we can use first enum name as default
+                    if (string.IsNullOrEmpty(sourceString))
+                        sourceString = Enum.GetNames(target).FirstOrDefault();
+
+                    if (string.IsNullOrEmpty(sourceString))
+                        return result;
+                    
+                    // remove all spaces from string
+                    sourceString = sourceString.Replace(" ", string.Empty);
+                    
+                    result.IsComplete = Enum.TryParse(target,sourceString, true, out var enumValue);
                     result.Result = enumValue;
-                    result.IsComplete = true;
                     return result;
                 }
                 if (sourceType == typeof(int) || sourceType == typeof(byte) 
