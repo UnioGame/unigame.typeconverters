@@ -16,6 +16,8 @@
     [Serializable]
     public abstract class BaseTypeConverter : ITypeConverter
     {
+        public virtual string ConverterName => GetType().Name;
+        
         public abstract bool CanConvert(Type fromType, Type toType);
 
         public abstract TypeConverterResult TryConvert(object source, Type target);

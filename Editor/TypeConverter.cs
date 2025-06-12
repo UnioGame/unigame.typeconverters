@@ -19,8 +19,7 @@
     {
         
 #if ODIN_INSPECTOR
-        [ListDrawerSettings()]
-        [InlineProperty]
+        [ListDrawerSettings(ListElementLabelName = "@ConverterName")]
 #endif
         [SerializeReference]
         public List<BaseTypeConverter> converters = new();
