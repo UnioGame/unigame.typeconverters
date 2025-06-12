@@ -25,7 +25,7 @@ namespace UniGame.TypeConverters.Editor
             if (fromType == stringType && toType.HasAttribute<SerializableAttribute>())
                 return true;
             
-            if (toType == stringType && fromType.HasAttribute<SerializableAttribute>())
+            if (toType == stringType && fromType.HasAttribute<SerializableAttribute>()) 
                 return true;
 
             return false;

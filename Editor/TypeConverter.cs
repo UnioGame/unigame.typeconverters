@@ -4,9 +4,12 @@
     using System.Collections.Generic;
     using System.Linq;
     using Abstract;
-    using global::UniGame.TypeConverters;
+    using TypeConverters;
     using UnityEngine;
-
+    
+#if ALCHEMY_INSPECTOR
+    using Alchemy.Inspector;
+#endif
 #if ODIN_INSPECTOR
     using Sirenix.OdinInspector;
 #endif
@@ -20,11 +23,14 @@
         [InlineProperty]
 #endif
         [SerializeReference]
-        public List<BaseTypeConverter> converters = new List<BaseTypeConverter>();
+        public List<BaseTypeConverter> converters = new();
 
         [ContextMenu(nameof(ResetToDefault))]
 #if ODIN_INSPECTOR
-        [Sirenix.OdinInspector.Button]
+        [Button]
+#endif
+#if ALCHEMY_INSPECTOR
+        [Button]
 #endif
         public void ResetToDefault()
         {
@@ -40,6 +46,7 @@
             converters.Add(new StringToAssetReferenceConverter());
             converters.Add(new StringToVectorTypeConverter());
             converters.Add(new StringToPercentableTypeConverter());
+            converters.Add(new EnumStringToStringConverter());
             converters.Add(new JsonSerializableClassConverter());
             converters.Add(new StringToPrimitiveTypeConverter());
             converters.Add(new PrimitiveTypeConverter());
