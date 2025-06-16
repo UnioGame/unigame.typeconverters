@@ -43,7 +43,7 @@
             converters.Add(new AssetToStringConverter());
             converters.Add(new StringToAssetConverter());
             converters.Add(new StringToAssetReferenceConverter());
-            converters.Add(new StringToVectorTypeConverter());
+            converters.Add(new VectorTypeConverter());
             converters.Add(new StringToPercentableTypeConverter());
             converters.Add(new EnumStringToStringConverter());
             converters.Add(new JsonSerializableClassConverter());

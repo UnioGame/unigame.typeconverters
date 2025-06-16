@@ -2,6 +2,7 @@
 {
     using System;
     using Abstract;
+    using UnityEngine;
 
     [Serializable]
     public class PrimitiveTypeConverter : BaseTypeConverter
@@ -36,17 +37,38 @@
             var canConvert = CanConvert(sourceType, target);
             if (!canConvert) return result;
 
-            result.IsComplete = true;
-            result.Result = ConvertValue(source, target);
+            var convertResult = ConvertValue(source, target);
+            
+            result.IsComplete = convertResult.success;
+            result.Result = convertResult.value;
             
             return result;
         }
 
-        public object ConvertValue(object source, Type target)
+        public ConvertResult ConvertValue(object source, Type target)
         {
-            return CanConvert(source.GetType(), target) ? 
-                Convert.ChangeType(source, target) : 
-                source;
+#if UNITY_EDITOR
+            try
+            {
+#endif
+                var canConvert = CanConvert(source.GetType(), target);
+                if (!canConvert) return new ConvertResult(){success = false, value = source};
+
+                var result = Convert.ChangeType(source, target);
+
+                return new ConvertResult()
+                {
+                    success = true,
+                    value = result,
+                };
+#if UNITY_EDITOR
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to convert {source?.GetType().Namespace} to {target.Name}: {e.Message}");
+                return new ConvertResult(){success = false, value = source};
+            }
+#endif
         }
 
         private TypeConverterResult ConvertToDefault(Type target,TypeConverterResult result)
@@ -69,6 +91,13 @@
             }
 
             return result;
+        }
+        
+        [Serializable]
+        public struct ConvertResult
+        {
+            public bool success;
+            public object value;
         }
     }
 }
