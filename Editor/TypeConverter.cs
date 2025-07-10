@@ -69,9 +69,20 @@
 
             for (var i = 0; i < converters.Count; i++) {
                 var converter     = converters[i];
-                var convertResult = converter.TryConvert(source, target);
-                if (convertResult.IsComplete)
-                    return convertResult;
+#if UNITY_EDITOR
+                try
+                {
+#endif
+                    var convertResult = converter.TryConvert(source, target);
+                    if (convertResult.IsComplete)
+                        return convertResult;
+#if UNITY_EDITOR     
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"ERROR to convert {source} to {target.Name} | {e.Message}");
+                }
+#endif 
             }
 
             return result;
