@@ -59,11 +59,15 @@
                     : Activator.CreateInstance(target);
             }
             
-            if (target == typeof(float)) {
+            if (target == typeof(float) || target == typeof(int)) {
                 var floatSource = source.Replace(globalizationSeparator, ".");
                 var style   = NumberStyles.Any;
                 var culture = CultureInfo.InvariantCulture;
                 float.TryParse(floatSource,style,culture,out var resultFloat);
+
+                if (target == typeof(int))
+                    return Mathf.CeilToInt(resultFloat);
+                
                 return resultFloat;
             }
             
